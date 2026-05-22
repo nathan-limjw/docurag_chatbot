@@ -1,6 +1,9 @@
+import ipaddress
+import socket
 import uuid
 from pathlib import Path
 from typing import List
+from urllib.parse import urlparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -46,6 +49,8 @@ def get_splitter() -> RecursiveCharacterTextSplitter:
 
 
 # Document Loader Functions
+
+
 def load_pdf(file_path: str) -> List[Document]:
     return PyPDFLoader(file_path).load()
 
@@ -54,7 +59,34 @@ def load_text(file_path: str) -> List[Document]:
     return TextLoader(file_path, encoding="utf-8").load()
 
 
+def validate_public_url(url: str) -> None:
+    parsed = urlparse(url)
+
+    if parsed.scheme not in {"http", "https"}:
+        raise ValueError("Only http and https URLs are supported.")
+
+    if not parsed.hostname:
+        raise ValueError("URL must include a valid hostname.")
+
+    hostname = parsed.hostname.lower()
+
+    if hostname in {"localhost", "127.0.0.1", "0.0.0.0"}:
+        raise ValueError("Localhost URLs are not allowed.")
+
+    try:
+        addresses = socket.getaddrinfo(hostname, None)
+    except socket.gaierror:
+        raise ValueError("Could not resolve URL hostname.")
+
+    for address in addresses:
+        ip = ipaddress.ip_address(address[4][0])
+        if ip.is_private or ip.is_loopback or ip.is_link_local or ip.is_reserved:
+            raise ValueError("Private or local network URLs are not allowed.")
+
+
 def load_url(url: str) -> List[Document]:
+    validate_public_url(url)
+
     response = requests.get(url, timeout=30)
     response.raise_for_status()
 

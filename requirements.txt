@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+langchain-text-splitters
+langchain-core
+langchain-openai
+langchain-community
+langgraph
+chromadb
+pypdf
+beautifulsoup4
+requests
+sentence-transformers
+streamlit 
+httpx
+python-dotenv
+pydantic-settings

@@ -29,6 +29,11 @@ def get_vector_store() -> Chroma:
     )
 
 
+def reset_vector_store() -> None:
+    store = get_vector_store()
+    store.delete_collection()
+
+
 # Text Splitter function
 
 
@@ -70,19 +75,19 @@ def ingest_documents(docs: List[Document], source_label: str) -> int:
     chunks = get_splitter().split_documents(docs)
 
     for chunk in chunks:
-        chunk.metadata.setdefault("source", source_label)
+        chunk.metadata["source"] = source_label
         chunk.metadata["chunk_id"] = str(uuid.uuid4())
 
     get_vector_store().add_documents(chunks)
     return len(chunks)
 
 
-def ingest_file(file_path: str) -> int:
+def ingest_file(file_path: str, source_label: str | None = None) -> int:
     path = Path(file_path)
     docs = (
         load_pdf(file_path) if path.suffix.lower() == ".pdf" else load_text(file_path)
     )
-    return ingest_documents(docs, source_label=path.name)
+    return ingest_documents(docs, source_label=source_label or path.name)
 
 
 def ingest_url(url: str) -> int:

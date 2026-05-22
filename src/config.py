@@ -26,7 +26,6 @@ class Settings(BaseSettings):
     max_history_turns: int = 6
 
     max_retries: int = 2
-    grounding_overlap_threshold: float = 0.15
 
     model_config = SettingsConfigDict(
         env_file=".env", env_file_encoding="utf-8", case_sensitive=False, extra="ignore"

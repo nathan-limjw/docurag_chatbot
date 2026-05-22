@@ -31,6 +31,8 @@ class IngestURLRequest(BaseModel):
 
 class SourceReference(BaseModel):
     source: str
+    page: Optional[int] = None
+    chunk_id: Optional[str] = None
     rerank_score: Optional[float] = None
 
 

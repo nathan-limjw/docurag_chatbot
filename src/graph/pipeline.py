@@ -68,6 +68,8 @@ def run_pipeline(query: str, thread_id: str) -> dict:
             sources.append(
                 {
                     "source": src,
+                    "page": doc.metadata.get("page"),
+                    "chunk_id": doc.metadata.get("chunk_id"),
                     "rerank_score": doc.metadata.get("rerank_score"),
                 }
             )

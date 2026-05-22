@@ -16,7 +16,6 @@ def retrieve_node(state: AgentState) -> AgentState:
     )  # Cross-encoder reranking (precise and runs on small candidate doc set)
 
     return {
-        **state,
         "retrieved_docs": candidates,
         "reranked_docs": top_docs,
     }

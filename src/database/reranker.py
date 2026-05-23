@@ -3,7 +3,7 @@ from typing import List
 from langchain_core.documents import Document
 from sentence_transformers import CrossEncoder
 
-from utils.config import settings
+from src.utils.config import settings
 
 _encoder: CrossEncoder | None = None
 

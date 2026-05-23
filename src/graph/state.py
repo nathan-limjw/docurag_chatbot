@@ -13,5 +13,6 @@ class AgentState(TypedDict):
     reranked_docs: List[Document]
     answer: str
     is_grounded: bool
+    is_useful: bool
     retry_count: int
     error: Optional[str]

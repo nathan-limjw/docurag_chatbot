@@ -9,4 +9,6 @@ def increment_retry(state: AgentState) -> AgentState:
     return {
         "retry_count": state.get("retry_count", 0) + 1,
         "answer": "",
+        "is_grounded": False,
+        "is_useful": False,
     }

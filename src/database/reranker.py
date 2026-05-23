@@ -1,3 +1,4 @@
+import math
 from typing import List
 
 from langchain_core.documents import Document
@@ -15,6 +16,10 @@ def _get_encoder() -> CrossEncoder:
     return _encoder
 
 
+def sigmoid(x):
+    return 1 / (1 + math.exp(-x))
+
+
 def rerank(
     query: str, documents: List[Document], top_n: int | None = None
 ) -> List[Document]:
@@ -29,7 +34,7 @@ def rerank(
 
     results = []
     for score, doc in ranked[:n]:
-        doc.metadata["rerank_score"] = round(float(score), 4)
+        doc.metadata["rerank_score"] = round(sigmoid(float(score)), 4)
         results.append(doc)
 
     return results

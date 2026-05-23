@@ -3,6 +3,9 @@ from langchain_openai import ChatOpenAI
 
 from src.graph.state import AgentState
 from utils.config import settings
+from utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 JUDGE_SYSTEM_PROMPT = """You are a strict grounding checker. 
 Your only job is to decide whether an answer is supported by the provided context.
@@ -32,6 +35,8 @@ def _build_context(docs: list) -> str:
 
 
 def validate_node(state: AgentState) -> AgentState:
+    logger.info("[VALIDATION NODE] Validating answer...")
+
     answer = state.get("answer", "")
     docs = state.get("reranked_docs", [])
 
@@ -56,5 +61,7 @@ def validate_node(state: AgentState) -> AgentState:
 
     verdict = response.content.strip().upper()
     is_grounded = verdict.startswith("YES")
+
+    logger.info(f"Validation verdict = {verdict}")
 
     return {"is_grounded": is_grounded}

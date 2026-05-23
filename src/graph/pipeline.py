@@ -3,9 +3,10 @@ from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import END, START, StateGraph
 
 from src.graph.nodes.generate import generate_node
+from src.graph.nodes.increment import increment_retry
 from src.graph.nodes.retrieve import retrieve_node
 from src.graph.nodes.validate import validate_node
-from src.graph.routing import increment_retry, route_after_validate
+from src.graph.routing import route_after_validate
 from src.graph.state import AgentState
 
 

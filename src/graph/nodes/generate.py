@@ -3,6 +3,9 @@ from langchain_openai import ChatOpenAI
 
 from src.graph.state import AgentState
 from utils.config import settings
+from utils.logger import get_logger
+
+logger = get_logger(__name__)
 
 SYSTEM_PROMPT = """
 You are a helpful assistant that answers questions based STRICTLY on the provided context documents
@@ -36,6 +39,10 @@ def _build_context(state: AgentState) -> str:
 
 
 def generate_node(state: AgentState) -> AgentState:
+    logger.info(
+        f"[GENERATION NODE] Attempt {state.get('retry_count', 0) + 1}: Generating answer..."
+    )
+
     llm = ChatOpenAI(
         model=settings.openai_model,
         temperature=settings.llm_temperature,
@@ -43,6 +50,11 @@ def generate_node(state: AgentState) -> AgentState:
     )
 
     context = _build_context(state)
+
+    logger.debug(f"""
+    - docs = {len(state.get("reranked_docs", []))}
+    - context_chas = {len(context)}
+    """)
 
     history = state.get("messages", [])[-settings.max_history_turns :]
 
@@ -61,6 +73,8 @@ def generate_node(state: AgentState) -> AgentState:
     )
 
     response = llm.invoke(messages)
+    logger.debug(f"LLM Response: {response.content.strip()}")
+
     ai_message = AIMessage(content=response.content.strip())
 
     return {

@@ -147,4 +147,4 @@ All settings are loaded from `.env` via `pydantic-settings`. Key options:
 
 See [DESIGN.md](./DESIGN.md) for the full architecture, prompt engineering decisions, chunking strategy, and retrieval design.
 
-See [chat_transcript.md](./chat_transcript.md) for a demo conversation with the chatbot.
+See [CHAT_TRANSCRIPT.md](./CHAT_TRANSCRIPT.md) for a demo conversation with the chatbot.

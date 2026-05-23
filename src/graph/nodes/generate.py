@@ -1,8 +1,8 @@
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
 
-from src.config import settings
 from src.graph.state import AgentState
+from utils.config import settings
 
 SYSTEM_PROMPT = """
 You are a helpful assistant that answers questions based STRICTLY on the provided context documents

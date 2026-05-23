@@ -1,8 +1,8 @@
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
 
-from src.config import settings
 from src.graph.state import AgentState
+from utils.config import settings
 
 JUDGE_SYSTEM_PROMPT = """You are a strict grounding checker. 
 Your only job is to decide whether an answer is supported by the provided context.

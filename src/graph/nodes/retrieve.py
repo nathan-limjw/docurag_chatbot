@@ -1,7 +1,7 @@
-from src.config import settings
 from src.database.reranker import rerank
 from src.database.store import retrieve
 from src.graph.state import AgentState
+from utils.config import settings
 
 
 def retrieve_node(state: AgentState) -> AgentState:

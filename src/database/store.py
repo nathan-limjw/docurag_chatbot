@@ -13,7 +13,7 @@ from langchain_core.documents import Document
 from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-from src.config import settings
+from utils.config import settings
 
 
 # Embeddings and Vector Store functions

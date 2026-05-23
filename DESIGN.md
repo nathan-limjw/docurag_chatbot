@@ -119,7 +119,7 @@ A two-stage pipeline is used to balance recall and precision:
 - Passes each `(query, chunk)` pair through `cross-encoder/ms-marco-MiniLM-L-6-v2`
 - Unlike bi-encoders, cross-encoders see both query and document simultaneously — producing more accurate relevance scores
 - Top `n=4` chunks are selected for context
-- Rerank score is stored in chunk metadata and surfaced to the user in the UI
+- The rae cross-encoder logit is passed through a sigmoid function before storage, normalising it to a 0-1 range for display
 
 This approach is a well-established pattern: bi-encoder for fast candidate retrieval, cross-encoder for precise final selection.
 
